@@ -48,7 +48,11 @@ module AdyenRouter
     end
 
     def publish
-      uri = URI("#{remote_address}/publish")
+      protocol = remote_address.scan(/(http):\/\/|(https):\/\//).flatten.compact.first
+      remote_address.gsub!(/http:\/\/|https:\/\//, '')
+      protocol = "http" unless protocol
+      uri = URI("#{protocol}://#{remote_address}/publish")
+
       req = Net::HTTP::Post.new(uri)
       req.set_form_data(machine: Base64.encode64("#{identity}|#{host}|#{port}"))
 
