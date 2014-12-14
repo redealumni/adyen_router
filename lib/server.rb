@@ -52,7 +52,7 @@ module AdyenRouter
     else
       @@machines << machine
     end
-    [200, {},"Yay! Adyen notifications for #{machine.name} will be forward to #{machine.host}:#{machine.port}\n"]
+    [200, {},"AdyenRouter: Yay! Notifications for #{machine.name} will be forward to #{machine.host}:#{machine.port}\n"]
   end
 
   post '/adyen/post_back' do
@@ -73,7 +73,7 @@ module AdyenRouter
 
     case response
     when ::Net::HTTPSuccess
-      [200, {}, "Post delivered to #{machine.name}"]
+      [200, {}, response.body]
     else
       halt 404, "not available"
     end
@@ -87,7 +87,7 @@ module AdyenRouter
     if machine = @@machines.detect { |m| m.name.eql?(name) }
       return machine
     else
-      halt 500, "AdyenRouter - machine not found"
+      halt 500, "AdyenRouter - machine #{name} not found"
     end
   end
 
