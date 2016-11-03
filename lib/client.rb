@@ -17,7 +17,7 @@ module AdyenRouter
     attr_accessor :use_private_address, :remote_address
 
     def identity
-      @identity ||= Socket.gethostname
+      @identity ||= Socket.gethostname.downcase
     end
 
     def host
